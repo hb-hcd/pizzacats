@@ -6,7 +6,8 @@ const typeDefs = gql`
     name: String!
     description: String!
     imgSrc: String!
-    toppingIds: [String!]
+    toppings: [Topping]
+    toppingIds: [String]!
   }
 
   type Query {
