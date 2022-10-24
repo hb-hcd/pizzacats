@@ -1,16 +1,19 @@
-import { Pizza } from '../schema/types/schema';
+//import { Pizza, Pizza as SchemaPizza } from '../schema/types/schema';
+import { Pizza as SchemaPizza } from '../schema/types/schema';
 import { Root } from '../schema/types/types';
 import { pizzaProvider } from '../providers';
+import { PizzaData } from 'src/entities/pizza';
 
 const pizzaResolver = {
   Query: {
-    pizzas: async (): Promise<Pizza[]> => {
+    pizzas: async (): Promise<PizzaData[]> => {
       return pizzaProvider.getPizzas();
     },
-    // pizza: async(id:string): Promise<Pizza> =>{
-    //   return pizzaProvider.getPizza(id);
-    // }
   },
+};
+
+export type Pizza = Omit<SchemaPizza, 'toppings'> & {
+  toppingIds: string[];
 };
 
 export { pizzaResolver };

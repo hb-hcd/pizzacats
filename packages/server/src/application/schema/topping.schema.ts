@@ -9,7 +9,6 @@ const typeDefs = gql`
 
   type Query {
     toppings: [Topping!]!
-    Pizza: Pizza
   }
 
   input ToppingQueryArgs {
