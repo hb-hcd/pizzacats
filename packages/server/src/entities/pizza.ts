@@ -3,12 +3,12 @@ import { Pizza } from '../application/providers/pizzas/pizza.provider.types';
 import { Scalars, Topping } from '../application/schema/types/schema';
 
 interface PizzaDocument extends Document, Omit<Pizza, 'id'> {
-  id: Scalars['ObjectID'];
-  name: Scalars['String'];
-  description: Scalars['String'];
-  imgSrc: Scalars['String'];
-  toppings: [Topping];
-  toppingIds: [ObjectId];
+  // id: Scalars['ObjectID'];
+  // name: Scalars['String'];
+  // description: Scalars['String'];
+  // imgSrc: Scalars['String'];
+  // toppings: [Topping];
+  // toppingIds: [ObjectId];
 }
 
 interface PizzaData extends Document {
@@ -16,7 +16,7 @@ interface PizzaData extends Document {
   name: Scalars['String'];
   description: Scalars['String'];
   imgSrc: Scalars['String'];
-  toppingIds: [ObjectId];
+  toppingIds: [string];
 }
 
 const toPizzaObject = (pizza: PizzaDocument): PizzaData => {

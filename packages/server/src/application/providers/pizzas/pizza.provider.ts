@@ -1,6 +1,5 @@
-import { ObjectId, Collection } from 'mongodb';
+import { Collection } from 'mongodb';
 import { PizzaDocument, toPizzaObject, PizzaData } from '../../..//entities/pizza';
-import { Pizza } from './pizza.provider.types';
 
 class PizzaProvider {
   constructor(private collection: Collection<PizzaDocument>) {}
