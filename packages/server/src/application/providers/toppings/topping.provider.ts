@@ -12,7 +12,7 @@ class ToppingProvider {
   }
 
   //get toppings by toppingIds array
-  public async getToppingsByIds(toppingIds: [string]): Promise<Topping[]> {
+  public async getToppingsByIds(toppingIds: string[]): Promise<Topping[]> {
     const toppings = await this.collection
       .find({ _id: { $in: toppingIds } })
       .sort({ name: 1 })
