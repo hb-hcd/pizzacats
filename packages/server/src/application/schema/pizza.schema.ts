@@ -6,7 +6,14 @@ const typeDefs = gql`
     name: String!
     description: String!
     imgSrc: String!
-    toppingIds: [String!]
+    toppings: [Topping!]!
+    toppingIds: [String!]!
+  }
+
+  type Topping {
+    id: ObjectID!
+    name: String!
+    priceCents: Int!
   }
 
   type Query {
