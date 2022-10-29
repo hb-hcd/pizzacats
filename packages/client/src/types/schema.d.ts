@@ -48,8 +48,8 @@ export type Pizza = {
   id: Scalars['ObjectID'];
   imgSrc: Scalars['String'];
   name: Scalars['String'];
-  toppingIds?: Maybe<Array<Maybe<Scalars['String']>>>;
-  toppings?: Maybe<Array<Maybe<Topping>>>;
+  toppingIds: Array<Scalars['String']>;
+  toppings: Array<Topping>;
 };
 
 export type Query = {

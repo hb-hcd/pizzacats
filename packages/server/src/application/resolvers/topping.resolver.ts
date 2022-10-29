@@ -1,6 +1,6 @@
 import { CreateToppingInput, DeleteToppingInput, Topping, UpdateToppingInput, Pizza } from '../schema/types/schema';
 import { Root } from '../schema/types/types';
-import { toppingProvider, pizzaProvider } from '../providers';
+import { toppingProvider } from '../providers';
 
 const toppingResolver = {
   Query: {
