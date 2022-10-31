@@ -30,7 +30,7 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
   return (
     <div className={classes.container}>
       <CardItem>
-        <img src={pizza.imgSrc} alt="" className={classes.img} />
+        <img src={pizza.imgSrc} className={classes.img} />
         <Typography data-testid={`pizza-name-${pizza.id}`} className={classes.info}>
           {pizza.name}
         </Typography>
