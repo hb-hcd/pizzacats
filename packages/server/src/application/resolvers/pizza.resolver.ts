@@ -9,7 +9,7 @@ const pizzaResolver = {
   },
 };
 
-export type Pizza = Omit<SchemaPizza, 'toppings'> & {
+export type Pizza = Omit<SchemaPizza, 'toppings' | 'priceCents'> & {
   toppingIds: string[];
 };
 

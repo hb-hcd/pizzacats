@@ -4,6 +4,7 @@ import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import CardItem from '../common/CardItem';
 import { Typography } from '@material-ui/core';
+import toDollars from '../../lib/format-dollars';
 
 const useStyles = makeStyles(({ typography }: Theme) => ({
   container: {
@@ -26,6 +27,7 @@ export interface PizzaItemProps {
 
 const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
   const classes = useStyles();
+  console.log(pizza);
 
   return (
     <div className={classes.container}>
@@ -35,6 +37,7 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
           {pizza.name}
         </Typography>
         <Typography data-testid={`pizza-description-${pizza.id}`}>{pizza.description}</Typography>
+        <Typography data-testid={`pizza-priceCents-${pizza.id}`}>{toDollars(pizza.priceCents)}</Typography>
       </CardItem>
     </div>
   );
