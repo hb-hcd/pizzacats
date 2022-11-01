@@ -20,6 +20,16 @@ class ToppingProvider {
     return toppings.map(toToppingObject);
   }
 
+  //get price of each pizza
+  public async getPriceCents(toppingIds: string[]): Promise<number> {
+    const toppings = await this.collection
+      .find({ _id: { $in: toppingIds } })
+      .sort({ name: 1 })
+      .toArray();
+    const priceCents = toppings.reduce((prev, curr) => prev + curr.priceCents, 0);
+    return priceCents;
+  }
+
   public async createTopping(input: CreateToppingInput): Promise<Topping> {
     const data = await this.collection.findOneAndUpdate(
       { _id: new ObjectId() },
