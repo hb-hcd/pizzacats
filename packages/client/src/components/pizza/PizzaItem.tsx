@@ -27,7 +27,6 @@ export interface PizzaItemProps {
 
 const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
   const classes = useStyles();
-  console.log(pizza);
 
   return (
     <div className={classes.container}>
