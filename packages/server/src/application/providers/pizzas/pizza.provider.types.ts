@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { Topping } from '../toppings/topping.provider.types';
 
 export interface Pizza {
@@ -8,4 +9,23 @@ export interface Pizza {
   toppings: [Topping];
   toppingIds: [string];
   priceCents: number;
+}
+
+export interface CreatePizzaInput {
+  name: string;
+  description: string;
+  imgSrc: string;
+  toppingIds: [ObjectId];
+}
+
+export interface UpdatePizzaInput {
+  id: string;
+  name?: string | null;
+  description?: string | null;
+  imgSrc?: string | null;
+  toppingIds?: [ObjectId] | null;
+}
+
+export interface DeleteToppingInput {
+  id: string;
 }
