@@ -13,8 +13,9 @@ class ToppingProvider {
 
   //get toppings by toppingIds array
   public async getToppingsByIds(toppingIds: string[]): Promise<Topping[]> {
+    const ids = toppingIds.map((id) => new ObjectId(id));
     const toppings = await this.collection
-      .find({ _id: { $in: toppingIds } })
+      .find({ _id: { $in: ids } })
       .sort({ name: 1 })
       .toArray();
     return toppings.map(toToppingObject);
@@ -28,6 +29,13 @@ class ToppingProvider {
       .toArray();
     const priceCents = toppings.reduce((prev, curr) => prev + curr.priceCents, 0);
     return priceCents;
+  }
+
+  public async validateToppings(toppingIds: string[]): Promise<void> {
+    const toppings = await this.getToppingsByIds(toppingIds);
+    if (toppings.length != toppingIds.length) {
+      throw new Error('Cannot find all toppings');
+    }
   }
 
   public async createTopping(input: CreateToppingInput): Promise<Topping> {
