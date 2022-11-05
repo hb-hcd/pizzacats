@@ -2,10 +2,11 @@ import { Collection, ObjectId } from 'mongodb';
 import { PizzaDocument, toPizzaObject } from '../../..//entities/pizza';
 import { Pizza, CreatePizzaInput, UpdatePizzaInput, DeleteToppingInput } from './pizza.provider.types';
 import validateStringInputs from '../../../lib/string-validator';
-import { toppingProvider } from '..';
+
+import { ToppingProvider } from '../toppings/topping.provider';
 
 class PizzaProvider {
-  constructor(private collection: Collection<PizzaDocument>) {}
+  constructor(private collection: Collection<PizzaDocument>, private toppingProvider: ToppingProvider) {}
 
   public async getPizzas(): Promise<Pizza[]> {
     const pizzas = await this.collection.find().sort({ name: 1 }).toArray();
@@ -19,7 +20,7 @@ class PizzaProvider {
     toppingIds.map((id) => {
       stringIds.push(id.toString());
     });
-    toppingProvider.validateToppings(stringIds);
+    await this.toppingProvider.validateToppings(stringIds);
     const data = await this.collection.findOneAndUpdate(
       { _id: new ObjectId() },
       { $set: { ...input!, updateAt: new Date().toISOString(), createdAt: new Date().toISOString() } },
@@ -40,7 +41,7 @@ class PizzaProvider {
       toppingIds.map((id) => {
         stringIds.push(id.toString());
       });
-      toppingProvider.validateToppings(stringIds);
+      await this.toppingProvider.validateToppings(stringIds);
     }
     const data = await this.collection.findOneAndUpdate(
       { _id: new ObjectId(id) },
@@ -62,13 +63,12 @@ class PizzaProvider {
   }
 
   public async deletePizza(input: DeleteToppingInput): Promise<string> {
-    const { id } = input;
-    const idToDelete = new ObjectId(id);
+    const idToDelete = new ObjectId(input.id);
     const data = await this.collection.findOneAndDelete({ _id: idToDelete });
     if (!data.value) {
       throw new Error(`Could not delete the pizza`);
     }
-    return id;
+    return input.id;
   }
 }
 

@@ -53,7 +53,7 @@ describe('toppingResolver', (): void => {
               name: mockTopping.name,
               priceCents: mockTopping.priceCents,
             },
-          ],
+          ] as any,
         });
 
         expect(toppingProvider.getToppings).toHaveBeenCalledTimes(1);
