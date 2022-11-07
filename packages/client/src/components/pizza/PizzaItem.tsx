@@ -23,13 +23,14 @@ const useStyles = makeStyles(({ typography }: Theme) => ({
 
 export interface PizzaItemProps {
   pizza: Pizza;
+  selectPizza: (pizza?: Pizza) => void;
 }
 
-const PizzaItem: React.FC<PizzaItemProps> = ({ pizza }) => {
+const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, selectPizza }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} onClick={(): void => selectPizza(pizza)}>
       <CardItem>
         <img src={pizza.imgSrc} className={classes.img} />
         <Typography data-testid={`pizza-name-${pizza.id}`} className={classes.info}>
