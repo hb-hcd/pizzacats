@@ -6,6 +6,7 @@ import PizzaItem from './PizzaItem';
 import { Pizza } from '../../types';
 import { List } from '@material-ui/core';
 import { useState } from 'react';
+import { PizzaModal } from './PizzaModal';
 
 const PizzaList: React.FC = () => {
   const [selectedPizza, setSelectedPizza] = useState<Partial<Pizza>>();
@@ -13,7 +14,6 @@ const PizzaList: React.FC = () => {
   const selectPizza = (pizza?: Pizza): void => {
     setSelectedPizza(pizza);
     setOpen(true);
-    console.log(selectedPizza);
   };
   const { loading, error, data } = useQuery(GET_PIZZAS);
   const cards: number = 10;
@@ -39,11 +39,15 @@ const PizzaList: React.FC = () => {
   }
 
   return (
-    <List>
-      {data.pizzas.map((pizza: Pizza) => (
-        <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} selectPizza={selectPizza} />
-      ))}
-    </List>
+    <>
+      <List>
+        <PizzaItem key="create-pizza" selectPizza={selectPizza} />
+        {data.pizzas.map((pizza: Pizza) => (
+          <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} selectPizza={selectPizza} />
+        ))}
+      </List>
+      <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
+    </>
   );
 };
 
