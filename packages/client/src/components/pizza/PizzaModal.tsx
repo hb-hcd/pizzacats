@@ -1,28 +1,14 @@
 import React from 'react';
-import Modal from '@mui/material/Modal';
 import { makeStyles, createStyles } from '@material-ui/styles';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import defaultPizza from '../../assets/img/default-pizza.jpeg';
 import { Formik } from 'formik';
-import { TextField, MenuItem, Checkbox, ListItemText } from '@mui/material';
+import { TextField, MenuItem, ListItemText, OutlinedInput, Box, Modal } from '@mui/material';
 import usePizzaMutations from '../../hooks/pizza/use-pizza-mutations';
 import { GET_TOPPINGS } from '../../hooks/graphql/topping/queries/get-toppings';
 import { Topping } from '../../types';
 import { useQuery } from '@apollo/client';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import Select from '@mui/material/Select';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -31,9 +17,8 @@ const useStyles = makeStyles(() =>
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: 600,
+      width: 500,
       backgroundColor: 'white',
-      border: '2px solid #000',
       boxShadow: '24',
       alignContent: 'center',
       justifyContent: 'center',
@@ -43,8 +28,8 @@ const useStyles = makeStyles(() =>
       p: 4,
     },
     img: {
-      maxWidth: '450px',
-      maxHeight: '450px',
+      maxWidth: '400px',
+      maxHeight: '400px',
     },
     formik: {
       width: '450px',
@@ -61,14 +46,19 @@ interface PizzaModalProps {
 }
 
 export const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: PizzaModalProps): JSX.Element => {
-  const { loading, data } = useQuery(GET_TOPPINGS);
-
+  const { data } = useQuery(GET_TOPPINGS);
   const classes = useStyles();
   const { onCreatePizza, onDeletePizza, onUpdatePizza } = usePizzaMutations();
-  if (selectedPizza) {
-    console.log(selectedPizza.toppingIds);
-  }
-
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
   return (
     <Modal
       aria-labelledby="modal-modal-title"
@@ -86,30 +76,29 @@ export const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: P
             name: selectedPizza ? selectedPizza.name : 'Name',
             description: selectedPizza ? selectedPizza.description : 'Description',
             imgSrc: selectedPizza ? selectedPizza.imgSrc : 'Image Url',
-            toppingIds: selectedPizza ? selectedPizza.toppingIds : 'Toppings',
+            toppingIds: selectedPizza ? selectedPizza.toppingIds : [],
           }}
           onSubmit={(values): void => {
             if (selectedPizza?.id) {
-              setSelectedPizza({
-                ...selectedPizza,
+              onUpdatePizza({
+                id: selectedPizza.id,
                 name: values.name,
                 description: values.description,
                 imgSrc: values.imgSrc,
-                toppingIds: ['564f0184537878b57efcb703'],
+                toppingIds: values.toppingIds,
               });
-              onUpdatePizza(selectedPizza);
             } else {
               onCreatePizza({
                 name: values.name,
                 description: values.description,
                 imgSrc: values.imgSrc,
-                toppingIds: ['564f0184537878b57efcb703'],
+                toppingIds: values.toppingIds,
               });
             }
             setOpen(false);
           }}
         >
-          {(props) => (
+          {(props): JSX.Element => (
             <form onSubmit={props.handleSubmit} className={classes.formik}>
               <div>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -142,6 +131,23 @@ export const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: P
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                   Toppings
                 </Typography>
+                <Select
+                  labelId="multiple-checkbox-label"
+                  id="multiple-checkbox"
+                  multiple
+                  name="toppingIds"
+                  MenuProps={MenuProps}
+                  input={<OutlinedInput label="Name" />}
+                  value={props.values.toppingIds}
+                  onChange={props.handleChange}
+                >
+                  {data &&
+                    data.toppings.map((topping: Topping) => (
+                      <MenuItem id={topping.id} key={topping.id} value={topping.id}>
+                        <ListItemText primary={topping.name} />
+                      </MenuItem>
+                    ))}
+                </Select>
               </div>
 
               <button type="submit">Submit</button>

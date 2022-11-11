@@ -58,7 +58,7 @@ const usePizzaMutations = (): UsePizzaMutationsOutput => {
       try {
         updatePizza({
           variables: {
-            createPizzaInput: {
+            updatePizzaInput: {
               id: selectedPizza.id,
               name: selectedPizza?.name,
               description: selectedPizza?.description,

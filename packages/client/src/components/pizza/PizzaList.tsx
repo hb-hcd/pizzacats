@@ -40,7 +40,7 @@ const PizzaList: React.FC = () => {
 
   return (
     <>
-      <List>
+      <List style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
         <PizzaItem key="create-pizza" selectPizza={selectPizza} />
         {data.pizzas.map((pizza: Pizza) => (
           <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} selectPizza={selectPizza} />

@@ -11,6 +11,7 @@ import { AddCircle } from '@material-ui/icons';
 const useStyles = makeStyles(({ typography }: Theme) => ({
   container: {
     marginTop: '2rem',
+    width: typography.pxToRem(450),
   },
   img: {
     width: typography.pxToRem(350),
@@ -28,7 +29,7 @@ export interface PizzaItemProps {
   selectPizza: (pizza?: Pizza) => void;
 }
 
-const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, selectPizza, ...props }) => {
+const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, selectPizza }) => {
   const classes = useStyles();
 
   return (
