@@ -6,7 +6,7 @@ import PizzaList from './PizzaList';
 
 const Pizzas: React.FC = () => {
   return (
-    <Container maxWidth="md">
+    <Container style={{ maxWidth: 'xl', justifyContent: 'center' }}>
       <PageHeader pageHeader={'Pizzas'} />
       <PizzaList />
     </Container>
