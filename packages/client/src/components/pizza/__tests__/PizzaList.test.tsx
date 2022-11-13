@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
 import { graphql } from 'msw';
 import { renderWithProviders } from '../../../lib/test/renderWithProviders';
-import { Topping, Pizza } from '../../../types';
+import { Pizza } from '../../../types';
 import { server } from '../../../lib/test/msw-server';
 import { createTestPizza } from '../../../lib/test/helper/pizza';
 import PizzaList from '../PizzaList';
