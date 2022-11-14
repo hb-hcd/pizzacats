@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import Typography from '@mui/material/Typography';
+import { Typography } from '@material-ui/core';
 import defaultPizza from '../../assets/img/default-pizza.jpeg';
 import { Formik } from 'formik';
 import { TextField, MenuItem, ListItemText, OutlinedInput, Box, Modal } from '@mui/material';
