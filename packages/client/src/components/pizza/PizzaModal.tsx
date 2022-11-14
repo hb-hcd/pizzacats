@@ -1,9 +1,8 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import Typography from '@mui/material/Typography';
 import defaultPizza from '../../assets/img/default-pizza.jpeg';
 import { Formik } from 'formik';
-import { TextField, MenuItem, ListItemText, OutlinedInput, Box, Modal } from '@mui/material';
+import { TextField, MenuItem, ListItemText, OutlinedInput, Box, Modal, Typography } from '@mui/material';
 import usePizzaMutations from '../../hooks/pizza/use-pizza-mutations';
 import { GET_TOPPINGS } from '../../hooks/graphql/topping/queries/get-toppings';
 import { Topping } from '../../types';
