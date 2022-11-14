@@ -2,5 +2,5 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  modulePaths: ['<rootDir>'],
+  modulePaths: ['<rootDir>/src'],
 };
