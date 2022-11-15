@@ -1,14 +1,14 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/styles';
-import { Typography } from '@material-ui/core';
+import Typography from '@mui/material/Typography';
 import defaultPizza from '../../assets/img/default-pizza.jpeg';
 import { Formik } from 'formik';
-import { Select } from '@mui/material';
 import { TextField, MenuItem, ListItemText, OutlinedInput, Box, Modal } from '@mui/material';
 import usePizzaMutations from '../../hooks/pizza/use-pizza-mutations';
 import { GET_TOPPINGS } from '../../hooks/graphql/topping/queries/get-toppings';
 import { Topping } from '../../types';
 import { useQuery } from '@apollo/client';
+import Select from '@mui/material/Select';
 
 const useStyles = makeStyles(() =>
   createStyles({

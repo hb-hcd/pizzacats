@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom';
 import App from './App';
-import '@mui/material';
 import { Providers } from './Providers';
 
 require('dotenv').config();
