@@ -33,7 +33,7 @@ const PizzaItem: React.FC<PizzaItemProps> = ({ pizza, selectPizza }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.container} onClick={(): void => selectPizza(pizza)}>
+    <div className={classes.container} onClick={(): void => selectPizza(pizza)} data-testid={`pizza-item-${pizza?.id}`}>
       <CardItem>
         {pizza?.imgSrc ? (
           <img src={pizza?.imgSrc} className={classes.img} />
