@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(2, 2, 2),
     height: theme.typography.pxToRem(500),
     '&:hover': {
-      cursor: 'pointer',
+      cursor: 'default',
     },
   },
 }));

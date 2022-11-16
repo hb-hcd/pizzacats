@@ -55,7 +55,7 @@ export const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: P
     PaperProps: {
       style: {
         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
+        width: 300,
       },
     },
   };
@@ -140,6 +140,14 @@ export const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: P
                   input={<OutlinedInput label="Name" />}
                   value={props.values.toppingIds}
                   onChange={props.handleChange}
+                  renderValue={(selected): void =>
+                    selected
+                      .map((id: string) => {
+                        return data.toppings.find((topping: Topping) => topping.id === id).name;
+                      })
+                      .join(', ')
+                  }
+                  style={{ display: 'flex', flexWrap: 'wrap' }}
                 >
                   {data &&
                     data.toppings.map((topping: Topping) => (
@@ -150,18 +158,20 @@ export const PizzaModal = ({ selectedPizza, setSelectedPizza, open, setOpen }: P
                 </Select>
               </div>
 
-              <button type="submit">Submit</button>
-              {selectedPizza && (
-                <button
-                  type="button"
-                  onClick={(): void => {
-                    onDeletePizza(selectedPizza);
-                    setOpen(false);
-                  }}
-                >
-                  Delete
-                </button>
-              )}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '5px' }}>
+                <button type="submit">Submit</button>
+                {selectedPizza && (
+                  <button
+                    type="button"
+                    onClick={(): void => {
+                      onDeletePizza(selectedPizza);
+                      setOpen(false);
+                    }}
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
             </form>
           )}
         </Formik>
