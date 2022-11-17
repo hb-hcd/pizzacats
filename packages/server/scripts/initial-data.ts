@@ -458,4 +458,11 @@ export const toppings: SeedTopping[] = [
     updatedAt: new Date().toISOString(),
     createdAt: new Date().toISOString(),
   },
+  {
+    _id: ID.Chicken,
+    name: 'Chicken',
+    priceCents: 300,
+    updatedAt: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+  },
 ];

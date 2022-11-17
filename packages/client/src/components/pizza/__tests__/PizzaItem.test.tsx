@@ -14,7 +14,7 @@ describe('PizzaItem', () => {
       $getName: () => screen.getByTestId(/^pizza-name-/),
       $getDescription: () => screen.getByTestId(/^pizza-description-/),
       $getPriceCents: () => screen.getByTestId(/^pizza-priceCents-/),
-      $getContainer: () => screen.getByTestId(/^pizza-item/),
+      $getEditButton: () => screen.getByRole('button'),
     };
   };
 
@@ -32,8 +32,8 @@ describe('PizzaItem', () => {
   });
 
   test('should call selectPizza when the any part of the container is clicked', async () => {
-    const { $getContainer } = renderPizzaList(props);
-    act(() => userEvent.click($getContainer()));
+    const { $getEditButton } = renderPizzaList(props);
+    act(() => userEvent.click($getEditButton()));
     expect(props.selectPizza).toHaveBeenCalledTimes(1);
   });
 });

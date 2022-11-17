@@ -4,9 +4,9 @@ import { GET_PIZZAS } from '../../hooks/graphql/pizza/queries/get-pizzas';
 import CardItemSkeleton from '../common/CardItemSkeleton';
 import PizzaItem from './PizzaItem';
 import { Pizza } from '../../types';
-import { List } from '@material-ui/core';
 import { useState } from 'react';
 import { PizzaModal } from './PizzaModal';
+import Grid from '@mui/material/Grid';
 
 const PizzaList: React.FC = () => {
   const [selectedPizza, setSelectedPizza] = useState<Partial<Pizza>>();
@@ -40,12 +40,14 @@ const PizzaList: React.FC = () => {
 
   return (
     <>
-      <List style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+      <Grid container spacing={2} rowSpacing={2} columnSpacing={3}>
         <PizzaItem key="create-pizza" selectPizza={selectPizza} />
+
         {data.pizzas.map((pizza: Pizza) => (
           <PizzaItem data-testid={`pizza-item-${pizza?.id}`} key={pizza.id} pizza={pizza} selectPizza={selectPizza} />
         ))}
-      </List>
+      </Grid>
+
       <PizzaModal selectedPizza={selectedPizza} setSelectedPizza={setSelectedPizza} open={open} setOpen={setOpen} />
     </>
   );
