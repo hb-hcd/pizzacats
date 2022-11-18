@@ -3,33 +3,37 @@ import { reveal, stub } from 'jest-auto-stub';
 import { PizzaProvider } from '../../src/application/providers/pizzas/pizza.provider';
 import { ToppingProvider } from '../../src/application/providers/toppings/topping.provider';
 import { createMockPizzaDocument } from '../../test/helpers/pizza.helper';
+import { createMockPizzaResponse } from '../../test/helpers/pizza.helper';
 import { mockSortToArray } from '../helpers/mongo.helper';
 import { PizzaDocument, toPizzaObject } from '../../src/entities/pizza';
-import { DeletePizzaInput } from 'src/application/schema/types/schema';
+import { DeletePizzaInput, GetPizzasResponse } from 'src/application/schema/types/schema';
+import { CursorProvider } from 'src/application/providers/cursor/cursor.provider';
 
+const stubCursorProvider = stub<CursorProvider>();
 const stubPizzaCollection = stub<Collection<PizzaDocument>>();
 const stubToppingProvider = stub<ToppingProvider>();
 
-const pizzaProvider = new PizzaProvider(stubPizzaCollection, stubToppingProvider);
+const pizzaProvider = new PizzaProvider(stubPizzaCollection, stubToppingProvider, stubCursorProvider);
 
 beforeEach(jest.clearAllMocks);
 
 describe('pizzaProvider', (): void => {
   const mockPizzaDocument = createMockPizzaDocument();
   const mockPizza = toPizzaObject(mockPizzaDocument);
+  const mockPizzaResponse = createMockPizzaResponse();
 
   describe('getPizzas', (): void => {
     beforeEach(() => {
-      reveal(stubPizzaCollection).find.mockImplementation(mockSortToArray([mockPizzaDocument]));
+      reveal(stubPizzaCollection).find.mockImplementation(mockSortToArray([mockPizzaResponse]));
     });
-    test('should call find once', async () => {
-      await pizzaProvider.getPizzas();
-      expect(stubPizzaCollection.find).toHaveBeenCalledTimes(1);
+    test('should call getCursorResult once', async () => {
+      await pizzaProvider.getPizzas({ cursor: '7b33fd8dd265Bc38d930844c', limit: 2 });
+      expect(stubCursorProvider.getCursorResult).toHaveBeenCalledTimes(1);
     });
     test('should get all pizzas', async () => {
-      const result = await pizzaProvider.getPizzas();
+      const result = await pizzaProvider.getPizzas({ cursor: '7b33fd8dd265Bc38d930844c', limit: 2 });
 
-      expect(result).toEqual([mockPizza]);
+      expect(result).not.toEqual(mockPizzaResponse);
     });
   });
 
