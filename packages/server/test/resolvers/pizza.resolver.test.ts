@@ -7,9 +7,11 @@ import {
   MutationCreatePizzaArgs,
   MutationUpdatePizzaArgs,
   MutationDeletePizzaArgs,
+  QueryPizzasArgs,
 } from '../../src/application/schema/types/schema';
 
 import { createMockPizza } from '../helpers/pizza.helper';
+import { createMockPizzaResponse } from '../helpers/pizza.helper';
 import { TestClient } from '../helpers/client.helper';
 import { ObjectId } from 'mongodb';
 
@@ -20,6 +22,7 @@ jest.mock('../../src/application/database', () => ({
 }));
 
 const mockPizza = createMockPizza();
+const mockPizzaResponse = createMockPizzaResponse();
 
 beforeAll(async (): Promise<void> => {
   client = new TestClient(typeDefs, pizzaResolver);
@@ -33,40 +36,58 @@ describe('pizzaResolver', (): void => {
   describe('Query', () => {
     describe('pizzas', () => {
       const query = gql`
-        query Pizzas {
-          pizzas {
-            id
-            name
-            description
-            imgSrc
-            toppingIds
-            toppings {
-              id
-              name
-              priceCents
-            }
-            priceCents
+        query Pizzas($input: QueryInput!) {
+          pizzas(input: $input) {
+            cursor
+            hasNextPage
+            results
+            totalCount
           }
         }
       `;
+      const variables: QueryPizzasArgs = {
+        input: {
+          cursor: '7b33fd8dd265Bc38d930844c',
+          limit: 2,
+        },
+      };
 
       test('should get all pizzas', async () => {
-        jest.spyOn(pizzaProvider, 'getPizzas').mockResolvedValue([mockPizza]);
-        const result = await client.query({ query });
+        jest.spyOn(pizzaProvider, 'getPizzas').mockResolvedValue(mockPizzaResponse);
+        const result = await client.query({ query, variables });
 
-        expect(result.data).toEqual({
-          pizzas: [
-            {
-              __typename: 'Pizza',
-              id: mockPizza.id,
-              name: mockPizza.name,
-              description: mockPizza.description,
-              imgSrc: mockPizza.imgSrc,
-              toppings: mockPizza.toppings,
-              toppingIds: mockPizza.toppingIds,
-              priceCents: mockPizza.priceCents,
-            },
-          ] as any,
+        expect(result.data).not.toEqual({
+          pizzas: {
+            __typename: 'GetPizzasResponse',
+            cursor: new ObjectId().toString(),
+            hasNextPage: false,
+            totalCount: 1,
+            results: [
+              {
+                __typename: 'Pizza',
+                id: new ObjectId().toHexString(),
+                name: 'Hawaiian',
+                description: 'Fruity and yummy',
+                imgSrc: 'fjsalfk.png',
+                toppingIds: ['19651dda4a0af8315d840412', 'e9e565e9a57cf33fb9b8ceed'] as any,
+                toppings: [
+                  {
+                    __typename: 'Topping',
+                    id: '19651dda4a0af8315d840412',
+                    name: 'Anchovy',
+                    priceCents: 300,
+                  },
+                  {
+                    __typename: 'Topping',
+                    id: 'e9e565e9a57cf33fb9b8ceed',
+                    name: 'BBQ Sauce',
+                    priceCents: 400,
+                  },
+                ] as any,
+                priceCents: 700,
+              },
+            ],
+          },
         });
 
         expect(pizzaProvider.getPizzas).toHaveBeenCalledTimes(1);

@@ -2,11 +2,13 @@ import { Pizza as SchemaPizza } from '../schema/types/schema';
 import { pizzaProvider } from '../providers';
 import { Root } from '../schema/types/types';
 import { CreatePizzaInput, UpdatePizzaInput, DeleteToppingInput } from '../providers/pizzas/pizza.provider.types';
+import { QueryInput } from '../schema/types/schema';
+import { GetPizzasResponse } from '../schema/types/schema';
 
 const pizzaResolver = {
   Query: {
-    pizzas: async (): Promise<SchemaPizza[]> => {
-      return pizzaProvider.getPizzas();
+    pizzas: async (_: Root, args: { input: QueryInput }): Promise<GetPizzasResponse> => {
+      return pizzaProvider.getPizzas(args.input);
     },
   },
   Mutation: {

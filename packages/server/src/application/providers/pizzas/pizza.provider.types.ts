@@ -29,3 +29,10 @@ export interface UpdatePizzaInput {
 export interface DeleteToppingInput {
   id: string;
 }
+
+export interface GetPizzasResponse {
+  results: Pizza[];
+  totalCount: number;
+  hasNextPage: boolean;
+  cursor: string;
+}
