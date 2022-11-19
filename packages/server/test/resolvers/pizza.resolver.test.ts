@@ -8,7 +8,6 @@ import {
   MutationUpdatePizzaArgs,
   MutationDeletePizzaArgs,
   QueryPizzasArgs,
-  GetPizzasResponse,
 } from '../../src/application/schema/types/schema';
 
 import { createMockPizza } from '../helpers/pizza.helper';

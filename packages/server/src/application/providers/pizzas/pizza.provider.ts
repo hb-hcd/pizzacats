@@ -15,8 +15,6 @@ class PizzaProvider {
   ) {}
 
   public async getPizzas(input: QueryInput): Promise<GetPizzasResponse> {
-    // const pizzas = await this.collection.find().sort({ name: 1 }).toArray();
-    // return pizzas.map(toPizzaObject);
     const { cursor, limit } = input;
     return this.cursorProvider.getCursorResult(cursor, limit);
   }
