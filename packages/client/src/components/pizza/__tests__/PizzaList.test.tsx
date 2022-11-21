@@ -16,13 +16,18 @@ describe('PizzaList', () => {
     };
   };
 
-  const mockpPizzasQuery = (data: Partial<Pizza[]>) => {
+  const mockpPizzasQuery = (data: any) => {
     server.use(
       graphql.query('Pizzas', (_request, response, context) => {
         return response(
           context.data({
             loading: false,
-            pizzas: [...data],
+            pizzas: {
+              results: [data],
+              hasNextPage: false,
+              totalCount: 1,
+              cursor: '9377cfa68a1c735c5730bb20',
+            },
           })
         );
       })

@@ -17,7 +17,7 @@ class CursorProvider {
   ): Promise<{ results: Pizza[]; hasNextPage: boolean; cursor: string; totalCount: number }> {
     const allPizzas = await this.collection.find().sort({ name: 1 }).toArray();
     let index = await this.getCursorIndex(cursor);
-    let startIndex = index < 0 ? 0 : index + 1;
+    let startIndex = index <= 0 ? 0 : index + 1;
     const hasNextPage = startIndex + limit < allPizzas.length;
     const results = allPizzas.map(toPizzaObject).slice(startIndex, startIndex + limit);
     cursor = results[results.length - 1].id;
