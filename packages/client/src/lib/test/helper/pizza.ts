@@ -1,4 +1,3 @@
-import { ObjectId } from 'bson';
 import { Pizza } from '../../../types/schema';
 
 export const createTestPizza = (data: Partial<Pizza> = {}): Pizza & { __typename: string } => ({

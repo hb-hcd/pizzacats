@@ -6,7 +6,7 @@ import { createMockPizzaDocument } from '../../test/helpers/pizza.helper';
 import { createMockPizzaResponse } from '../../test/helpers/pizza.helper';
 import { mockSortToArray } from '../helpers/mongo.helper';
 import { PizzaDocument, toPizzaObject } from '../../src/entities/pizza';
-import { DeletePizzaInput, GetPizzasResponse } from 'src/application/schema/types/schema';
+import { DeletePizzaInput } from 'src/application/schema/types/schema';
 import { CursorProvider } from 'src/application/providers/cursor/cursor.provider';
 
 const stubCursorProvider = stub<CursorProvider>();
